@@ -34,7 +34,7 @@ body {
 /* Customize container */
 @media (min-width: 768px) {
   .container {
-    max-width: 730px;
+    max-width: 930px;
   }
 }
 .container-narrow > hr {
@@ -101,4 +101,15 @@ body {
 
 .img-carousel {
     border-radius: 20px 20px 20px 20px;
+}
+
+.form-control1 {
+  width: 650px !important;
+  margin-top: 2px !important;
+}
+
+.btn-control1 {
+  width: 120px !important;
+  font-size:15px !important;
+
 }
