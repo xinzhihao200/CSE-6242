@@ -85,5 +85,16 @@ body {
 }
 
 .bg1 {
-      background-color: #cadcf9; /* Dark Blue */
+      background-color: #cadcf9; /* Light Blue */
 }
+
+.carousel {
+  overflow: hidden;
+  border-radius: 20px 20px 20px 20px;
+}
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+      margin: auto;
+      width: 100%;
+  }
