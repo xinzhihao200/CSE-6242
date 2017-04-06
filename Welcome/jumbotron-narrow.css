@@ -80,9 +80,6 @@ body {
 
 .img-center {
   margin:0 auto;
-}
-
-.img-BBQ {
-    opacity: 0.9;
-    filter: alpha(opacity=90); /* For IE8 and earlier */
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
