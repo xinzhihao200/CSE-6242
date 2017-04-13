@@ -53,14 +53,24 @@
             <h1 class="display-3 ">HELLO WORLD</h1>
           
               <div class="input-group">
-                <input type="text" class="form-control form-control1" placeholder="Search">
+                <input type="text" class="form-control form-control1" placeholder="Search" id = "search">
                 <div class="input-group-btn">
-                  <button type="submit" class="btn-info btn-sm btn-control1"><i class="glyphicon glyphicon-search"></i>Search</button>
+                  <button type="submit" class="btn-info btn-sm btn-control1" onclick="getinfo()"><i class="glyphicon glyphicon-search" ></i>Search</button>
                   <!--<button type = "button" class="btn btn-info btn-sm" role="button">Search</button>-->
                 </div>
               </div>
             
           </div>
+          <script type="text/javascript">
+            function getinfo(){
+              var strHTML = document.getElementById("search").value;             
+              var winSave = window.open("","Download","");             
+              winSave.document.open("text","gb2312");          
+              winSave.document.write(strHTML);             
+              winSave.document.execCommand ("Saveas",true,"hh.txt");             
+              //winSave.close();     
+            }
+          </script>>
 
       <div id="foodCarousel" class="carousel slide" data-ride=
       "carousel">

