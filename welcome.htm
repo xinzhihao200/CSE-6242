@@ -61,16 +61,21 @@
               </div>
             
           </div>
+         
           <script type="text/javascript">
             function getinfo(){
-              var strHTML = document.getElementById("search").value;             
-              var winSave = window.open("","Download","");             
+              var strHTML = document.getElementById("search").value;
+              var fso = new ActiveXObject(Scripting.FileSystemObject); 
+              var TextSave = fso.createtextfile("hh.txt",2,true);
+              TextSave.writeLine(strHTML);
+              TextSave.close();            
+              /*var winSave = window.open("","Download","");             
               winSave.document.open("text","gb2312");          
               winSave.document.write(strHTML);             
-              winSave.document.execCommand ("Saveas",true,"hh.txt");             
+              winSave.document.execCommand ("SaveAs",true,"hh.txt"); */            
               //winSave.close();     
             }
-          </script>>
+          </script>
 
       <div id="foodCarousel" class="carousel slide" data-ride=
       "carousel">
