@@ -113,3 +113,8 @@ body {
   font-size:15px !important;
 
 }
+
+.table td,
+.table th{
+  text-align: center;
+}

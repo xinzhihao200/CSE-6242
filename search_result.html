@@ -12,7 +12,7 @@
   <meta name="author" content="">
   <link rel="icon" href="Welcome/Mario-icon.png">
 
-  <title>Search_Result</title>
+  <title>Search Result</title>
 
   <!-- Bootstrap core CSS -->
   <link href="bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
@@ -36,42 +36,54 @@
     </head>
 
     <body>
-    <div class="container" style="margin-top: 35px">
-  <div class="page-header page-heading">
-    <h1 class="pull-left">Forums</h1>
-    <ol class="breadcrumb pull-right where-am-i">
-      <li><a href="#">Forums</a></li>
-      <li class="active">List of topics</li>
-    </ol>
-    <div class="clearfix"></div>
-  </div>
-  <p class="lead">This is the right place to discuss any ideas, critics, feature requests and all the ideas regarding our website. Please follow the forum rules and always check FAQ before posting to prevent duplicate posts.</p>
-  <table class="table forum table-striped">
+      <div class = "container-fluid bg1">
+        <div class="container">
+          <div class="header clearfix">
+            <nav>
+              <ul class="nav nav-pills pull-right">
+                <li role="presentation" class="active"><a href="#">Home</a></li>
+                <li role="presentation"><a href="#">Sign In</a></li>
+                <li role="presentation"><a href="#">Sign Up</a></li>
+              </ul>
+            </nav>
+            <h3 class="text-muted">Welcome to Mama zuo de fan~</h3>
+          </div>
+
+          <div class="jumbotron">
+            <h1 class="display-3 ">HELLO WORLD</h1>
+          
+              <div class="input-group">
+                <input type="text" class="form-control form-control1" placeholder="Search" id = "search">
+                <div class="input-group-btn">
+                  <button type="submit" class="btn-info btn-sm btn-control1" onclick="getinfo()"><i class="glyphicon glyphicon-search" ></i>Search</button>
+                  <!--<button type = "button" class="btn btn-info btn-sm" role="button">Search</button>-->
+                </div>
+              </div>
+            
+<table class="table forum table-striped" style="margin-top: 50px; vertical-align: center;">
     <thead>
       <tr>
         <th class="cell-stat"></th>
-        <th>
-          <h3>Important</h3>
-        </th>
-        <th class="cell-stat text-center hidden-xs hidden-sm">Topics</th>
-        <th class="cell-stat text-center hidden-xs hidden-sm">Posts</th>
-        <th class="cell-stat-2x hidden-xs hidden-sm">Last Post</th>
+        <th class="cell-stat text-center hidden-xs hidden-sm">Restaurant</th>
+        <th class="cell-stat text-center hidden-xs hidden-sm">attribute 1</th>
+        <th class="cell-stat text-center hidden-xs hidden-sm">attribute 2</th>
+        <th class="cell-stat-2x hidden-xs hidden-sm">attribute 3</th>
       </tr>
     </thead>
     <tbody>
       <tr>
-        <td class="text-center"><i class="fa fa-question fa-2x text-primary"></i></td>
+        <td class="text-center"><img src="Welcome/Coffee-Steak-3-1024x720.jpg" alt="Cinque Terre" width="100" height="60"></td>
         <td>
-          <h4><a href="#">Frequently Asked Questions</a><br><small>Some description</small></h4>
+          <h4><a href="#">Papa's Grill</a><br><small>Description</small></h4>
         </td>
         <td class="text-center hidden-xs hidden-sm"><a href="#">9 542</a></td>
         <td class="text-center hidden-xs hidden-sm"><a href="#">89 897</a></td>
         <td class="hidden-xs hidden-sm">by <a href="#">John Doe</a><br><small><i class="fa fa-clock-o"></i> 3 months ago</small></td>
       </tr>
       <tr>
-        <td class="text-center"><i class="fa fa-exclamation fa-2x text-danger"></i></td>
+        <td class="text-center"><img src="Welcome/going-vegetarian-would-cut-globa-1024x720.jpg" width="100" height="60" alt="Cinque Terre" ></td>
         <td>
-          <h4><a href="#">Important changes</a><br><small>Category description</small></h4>
+          <h4><a href="#">Mama's Veggies</a><br><small>Description</small></h4>
         </td>
         <td class="text-center hidden-xs hidden-sm"><a href="#">6532</a></td>
         <td class="text-center hidden-xs hidden-sm"><a href="#">152123</a></td>
@@ -79,59 +91,35 @@
       </tr>
     </tbody>
   </table>
-  <table class="table forum table-striped">
-    <thead>
-      <tr>
-        <th class="cell-stat"></th>
-        <th>
-          <h3>Suggestions</h3>
-        </th>
-        <th class="cell-stat text-center hidden-xs hidden-sm">Topics</th>
-        <th class="cell-stat text-center hidden-xs hidden-sm">Posts</th>
-        <th class="cell-stat-2x hidden-xs hidden-sm">Last Post</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td class="text-center"><i class="fa fa-heart fa-2x text-primary"></i></td>
-        <td>
-          <h4><a href="#">More more more</a><br><small>Category description</small></h4>
-        </td>
-        <td class="text-center hidden-xs hidden-sm"><a href="#">6532</a></td>
-        <td class="text-center hidden-xs hidden-sm"><a href="#">152123</a></td>
-        <td class="hidden-xs hidden-sm">by <a href="#">Jane Doe</a><br><small><i class="fa fa-clock-o"></i> 3 months ago</small></td>
-      </tr>
-      <tr>
-        <td class="text-center"><i class="fa fa-magic fa-2x text-primary"></i></td>
-        <td>
-          <h4><a href="#">Haha</a><br><small>Category description</small></h4>
-        </td>
-        <td class="text-center hidden-xs hidden-sm"><a href="#">6532</a></td>
-        <td class="text-center hidden-xs hidden-sm"><a href="#">152123</a></td>
-        <td class="hidden-xs hidden-sm">by <a href="#">Jane Doe</a><br><small><i class="fa fa-clock-o"></i> 1 years ago</small></td>
-      </tr>
-    </tbody>
-  </table>
-  <table class="table forum table-striped">
-    <thead>
-      <tr>
-        <th class="cell-stat"></th>
-        <th>
-          <h3>Open discussion</h3>
-        </th>
-        <th class="cell-stat text-center hidden-xs hidden-sm">Topics</th>
-        <th class="cell-stat text-center hidden-xs hidden-sm">Posts</th>
-        <th class="cell-stat-2x hidden-xs hidden-sm">Last Post</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td></td>
-        <td colspan="4" class="center">No topics have been added yet.</td>
-      </tr>
-    </tbody>
-  </table>
+
+
+
+          </div>
+         
+          <script type="text/javascript">
+            function getinfo(){
+              var strHTML = document.getElementById("search").value;
+              var fso = new ActiveXObject(Scripting.FileSystemObject); 
+              var TextSave = fso.createtextfile("hh.txt",2,true);
+              TextSave.writeLine(strHTML);
+              TextSave.close();            
+              /*var winSave = window.open("","Download","");             
+              winSave.document.open("text","gb2312");          
+              winSave.document.write(strHTML);             
+              winSave.document.execCommand ("SaveAs",true,"hh.txt"); */            
+              //winSave.close();     
+            }
+          </script>
+
+<footer class="footer">
+  <p>cse6242 Group30</p>
+</footer>
+
+</div> <!-- /container -->
 </div>
-</div>
-</body>
-</html>
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="Welcome/ie10-viewport-bug-workaround.js"></script>
+
+
+</body></html>
