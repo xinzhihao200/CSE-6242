@@ -85,7 +85,10 @@ body {
 }
 
 .bg1 {
+      background-image: url(http://www.powerpointhintergrund.com/uploads/food-background-13.jpg);
       background-color: #cadcf9; /* Light Blue */
+      background-size: 100% 100%;
+      background-repeat: no-repeat;
 }
 
 .carousel {
