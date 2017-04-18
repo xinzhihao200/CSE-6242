@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries --><meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="Welcome/Mario-icon.png">
+
+  <title>Search Result</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="bootstrap-3.3.7-dist/css/bootstrap.css" rel="stylesheet">
+
+  <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+  <link href="Welcome/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+  <!-- Custom styles for this template -->
+  <link href="Welcome/jumbotron-narrow.css" rel="stylesheet">
+
+  <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+  <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+  <script src="Welcome/ie-emulation-modes-warning.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+  <script src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+      <![endif]-->
+    </head>
+
+    <body class="bg1">
+      <div class = "container-fluid">
+        <div class="container">
+          <div class="header clearfix">
+            <nav>
+              <ul class="nav nav-pills pull-right">
+                <li role="presentation" class="active"><a href="#">Home</a></li>
+                <li role="presentation"><a href="#">Sign In</a></li>
+                <li role="presentation"><a href="#">Sign Up</a></li>
+              </ul>
+            </nav>
+            <h3 class="text-muted">Welcome to Mama zuo de fan~</h3>
+          </div>
+
+          <div class="jumbotron">
+            <h1 class="display-3 ">Something else?</h1>
+          
+              <div class="input-group">
+                <input type="text" class="form-control form-control1" placeholder="Search" autofocus="" id="search">
+                <div class="input-group-btn">
+                  <button type="submit" class="btn-info btn-sm btn-control1" onclick="getinfo()"><i class="glyphicon glyphicon-search" ></i>Search</button>
+                  <!--<button type = "button" class="btn btn-info btn-sm" role="button">Search</button>-->
+                </div>
+              </div>
+            
+<table class="table forum table-striped" style="margin-top: 50px; vertical-align: center;">
+    <thead>
+      <tr>
+        <th class="cell-stat"></th>
+        <th class="cell-stat text-center hidden-xs hidden-sm">Restaurant</th>
+        <th class="cell-stat text-center hidden-xs hidden-sm">attribute 1</th>
+        <th class="cell-stat text-center hidden-xs hidden-sm">attribute 2</th>
+        <th class="cell-stat-2x hidden-xs hidden-sm">attribute 3</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="text-center"><img src="Welcome/Coffee-Steak-3-1024x720.jpg" alt="Cinque Terre" width="100" height="60"></td>
+        <td>
+          <h4><a href="#">Papa's Grill</a><br><small>Description</small></h4>
+        </td>
+        <td class="text-center hidden-xs hidden-sm"><a href="#">9 542</a></td>
+        <td class="text-center hidden-xs hidden-sm"><a href="#">89 897</a></td>
+        <td class="hidden-xs hidden-sm">by <a href="#">John Doe</a><br><small><i class="fa fa-clock-o"></i> 3 months ago</small></td>
+      </tr>
+      <tr>
+        <td class="text-center"><img src="Welcome/going-vegetarian-would-cut-globa-1024x720.jpg" width="100" height="60" alt="Cinque Terre" ></td>
+        <td>
+          <h4><a href="#">Mama's Veggies</a><br><small>Description</small></h4>
+        </td>
+        <td class="text-center hidden-xs hidden-sm"><a href="#">6532</a></td>
+        <td class="text-center hidden-xs hidden-sm"><a href="#">152123</a></td>
+        <td class="hidden-xs hidden-sm">by <a href="#">Jane Doe</a><br><small><i class="fa fa-clock-o"></i> 1 years ago</small></td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+          </div>
+         
+          <script type="text/javascript">
+            function getinfo(){
+              var strHTML = document.getElementById("search").value;
+              var fso = new ActiveXObject(Scripting.FileSystemObject); 
+              var TextSave = fso.createtextfile("hh.txt",2,true);
+              TextSave.writeLine(strHTML);
+              TextSave.close();            
+              /*var winSave = window.open("","Download","");             
+              winSave.document.open("text","gb2312");          
+              winSave.document.write(strHTML);             
+              winSave.document.execCommand ("SaveAs",true,"hh.txt"); */            
+              //winSave.close();     
+            }
+          </script>
+
+<footer class="footer">
+  <p>cse6242 Group30</p>
+</footer>
+
+</div> <!-- /container -->
+</div>
+
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="Welcome/ie10-viewport-bug-workaround.js"></script>
+
+
+</body></html>
