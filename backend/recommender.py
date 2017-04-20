@@ -1,5 +1,6 @@
 import numpy as np
 import cPickle as pickle
+from sql import (MysqlPython, business_dataDict, config)
 
 
 class Data(object):
@@ -15,7 +16,7 @@ class Data(object):
         self.sql = sql
         self.per_train = per_train
 
-    def fetch_data(self, mode='train'):
+    def fetch_data(self, mode='train', batch_size=5000):
         N = self.total
         a = int(self.per_train * N)
         b = int((1 - self.per_train) * N)
@@ -26,7 +27,7 @@ class Data(object):
 
         self.sql.exe(query)
         while True:
-            data = self.cursor.fetchmany(size=1)
+            data = self.sql.cursor.fetchmany(size=batch_size)
             if data == []:
                 break
             else:
@@ -44,7 +45,7 @@ class SVD(object):
     def __init__(self, n_factors=100, n_epochs=20, biased=True, lr_all=.005,
                  reg_all=.02, lr_bu=None, lr_bi=None, lr_pu=None, lr_qi=None,
                  reg_bu=None, reg_bi=None, reg_pu=None, reg_qi=None,
-                 verbose=False):
+                 verbose=True):
 
         self.n_factors = n_factors
         self.n_epochs = n_epochs
@@ -59,28 +60,55 @@ class SVD(object):
         self.reg_qi = reg_qi if reg_qi is not None else reg_all
         self.verbose = verbose
 
+    def load(self):
+        with open('profile', 'rb') as f:
+            profile = pickle.load(f)
+        try:
+            self.bu = profile['bu']
+            self.bi = profile['bi']
+            self.pu = profile['pu']
+            self.qi = profile['qi']
+        except:
+            self.bu = np.zeros(profile['n_users'])
+            self.bi = np.zeros(profile['n_items'])
+            self.pu = np.zeros([profile['n_users'], self.n_factors]) + 0.1
+            self.qi = np.zeros([profile['n_items'], self.n_factors]) + 0.1
+        self.profile = profile
+
+    def save(self):
+        self.profile['bu'] = self.bu
+        self.profile['bi'] = self.bi
+        self.profile['pu'] = self.pu
+        self.profile['qi'] = self.qi
+        with open('profile', 'wb') as f:
+            pickle.dump(self.profile, f)
+
     def train(self, data):
+        self.load()
         self.data = data
-        bu = np.zeros(data.n_users)
-        bi = np.zeros(data.n_items)
-        pu = np.zeros([data.n_users, self.n_factors]) + 0.1
-        qi = np.zeros([data.n_items, self.n_factors]) + 0.1
         self.global_mean = data.global_mean
 
+        batch_step = 0
         for epoch in range(self.n_epochs):
-            if self.verbose:
-                print("Processing epoch {}".format(epoch))
-            for u, i, r in data.fetchTrain():
-                dot = np.dot(qi[i], pu[u])
-                err = r - (self.global_mean + bu[u] + bi[i] + dot)
+            for batch in data.fetchTrain():
+                if self.verbose:
+                    print(
+                        "Processing epoch {}, batch {}".format(epoch, batch_step))
+                batch_step += 1
+                for u, i, r in batch:
+                    dot = np.dot(self.qi[i], self.pu[u])
+                    err = r - \
+                        (self.global_mean + self.bu[u] + self.bi[i] + dot)
 
-                bu[u] += self.lr_bu * (err - self.reg_bu * bu[u])
-                bi[i] += self.lr_bi * (err - self.reg_bi * bi[i])
+                    self.bu[u] += self.lr_bu * (err - self.reg_bu * self.bu[u])
+                    self.bi[i] += self.lr_bi * (err - self.reg_bi * self.bi[i])
 
-                pu[u] += self.lr_pu * (err * qi[i] - self.reg_pu * pu[u])
-                qi[i] += self.lr_qi * (err * pu[u] - self.reg_qi * qi[i])
+                    self.pu[u] += self.lr_pu * \
+                        (err * self.qi[i] - self.reg_pu * self.pu[u])
+                    self.qi[i] += self.lr_qi * \
+                        (err * self.pu[u] - self.reg_qi * self.qi[i])
 
-        self.bu, self.bi, self.pu, self.qi = bu, bi, pu, qi
+        self.save()
 
     def predict(self, testset=None):
         if testset is None:
@@ -97,3 +125,55 @@ class SVD(object):
             res.append(est)
 
         return res
+
+
+class Response(object):
+
+    def __init__(self, sql):
+        self.sql = sql
+        self.exe = self.sql.exe
+
+    def search(self, string):
+        keys = []
+        for key in business_dataDict.iterkeys():
+            keys.append(key)
+        query = "select {} from business where match (name, categories, city) against ('{}' in natural language mode) limit 100".format(
+            ','.join(keys), string)
+        self.exe(query)
+        datum = self.sql.cursor.fetchall()
+        res = []
+        for data in datum:
+            newDict = {}
+            for key, val in zip(keys, data):
+                if key == 'attributes':
+                    newDict['price'] = self._get_price(val)
+                else:
+                    newDict['price'] = None
+                if isinstance(val, unicode):
+                    newDict[key] = val.split('-=-')
+                else:
+                    newDict[key] = val
+            res.append(newDict)
+
+        return res
+
+    def _get_price(self, val):
+        if 'RestaurantsPriceRange2' not in val:
+            return None
+        else:
+            val_list = val.split('-=-')
+            for string in val_list:
+                if 'RestaurantsPriceRange2' in string:
+                    string = string.replace('RestaurantsPriceRange2:', '')
+                    return int(string)
+
+
+def easy_search(string):
+    sql = MysqlPython(config, "alldata")
+    res = Response(sql)
+    return res.search(string)
+
+
+# if __name__ == '__main__':
+string = 'chinese las'
+data = easy_search(string)

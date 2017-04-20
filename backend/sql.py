@@ -6,6 +6,7 @@ from sqlalchemy import create_engine
 from itertools import islice
 import sys
 import cPickle as pickle
+import numpy as np
 
 DB_NAME = "alldata"
 
@@ -16,11 +17,28 @@ config = {
     'raise_on_warnings': True,
 }
 FILEPATH = "/home/zhangzimou/Downloads/ChromeDownload/cse6242_data/"
+business_dataDict = {
+    'address': None,
+    'attributes': None,
+    'business_id': None,
+    'categories': None,
+    'city': None,
+    'hours': None,
+    'is_open': None,
+    'latitude': None,
+    'longitude': None,
+    'name': None,
+    'neighborhood': None,
+    'postal_code': None,
+    'review_count': None,
+    'stars': None,
+    'state': None,
+}
 
 
 class MysqlPython(object):
 
-    def __init__(self, config, db_name):
+    def __init__(self, config, db_name, mode='simple'):
         self.cnx = mysql.connector.connect(**config)
         self.cursor = self.cnx.cursor()
         try:
@@ -31,11 +49,13 @@ class MysqlPython(object):
 
         self.db_name = db_name
         self.exe("use {}".format(db_name))
-        try:
-            with open('profile', 'rb') as f:
-                self.profile = pickle.load(f)
-        except:
-            self.profile = {}
+
+        if mode != 'simple':
+            try:
+                with open('profile', 'rb') as f:
+                    self.profile = pickle.load(f)
+            except:
+                self.profile = {}
 
     def exe(self, query):
         self.cursor.execute(query)
@@ -141,23 +161,7 @@ class MysqlPython(object):
         self._create_insert(tb_name, filepath, dataType)
 
     def get_business_info(self, business_id):
-        dataDict = {
-            'address': None,
-            'attributes': None,
-            'business_id': None,
-            'categories': None,
-            'city': None,
-            'hours': None,
-            'is_open': None,
-            'latitude': None,
-            'longitude': None,
-            'name': None,
-            'neighborhood': None,
-            'postal_code': None,
-            'review_count': None,
-            'stars': None,
-            'state': None,
-        }
+        dataDict = business_dataDict
         keys = []
         for key in dataDict.iterkeys():
             keys.append(key)
@@ -210,51 +214,59 @@ class MysqlPython(object):
 
         df.to_csv(target_name + '.csv', encoding='utf-8', index=False)
 
-    def process_review_data(self, N=100):
-        query = ("create table business_hash("
-                 "business_id varchar(100),"
-                 "num int auto_increment,"
-                 "primary key (business_id),"
-                 "auto_increment=0);")
-        try:
-            self.drop_table("business_hash")
-        except:
-            pass
-        self.exe(query)
-        query = ("create table user_hash("
-                 "user_id varchar(100),"
-                 "num int auto_increment,"
-                 "primary key (user_id),"
-                 "auto_increment=0);")
-        try:
-            self.drop_table("user_table")
-        except:
-            pass
-        self.exe(query)
+    def process_review_data(self, N=3000):
+        def a():
+            query = ("create table business_hash("
+                     "business_id varchar(100),"
+                     "num int auto_increment unique,"
+                     "primary key (business_id));")
+            try:
+                self.drop_table("business_hash")
+            except:
+                pass
+            self.exe(query)
 
-        query = "alter table review add index int auto_increment primary key"
-        self.exe(query)
-        query = "alter table review add (u int, i int)"
-        self.exe(query)
+        def b():
+            query = ("create table user_hash("
+                     "user_id varchar(100),"
+                     "num int auto_increment unique,"
+                     "primary key (user_id));")
+            try:
+                self.drop_table("user_table")
+            except:
+                pass
+            self.exe(query)
 
-        query = "select business_id, user_id, stars, index from review"
-        self.exe(query)
+        def c():
+            query = "alter table review add idx int auto_increment primary key"
+            self.exe(query)
+            query = "alter table review add (u int, i int)"
+            self.exe(query)
 
+        # a()
+        # b()
         global_mean = 0
         step, i_max, u_max = 0, 0, 0
+        readTimes = 0
         while True:
-            data = self.cursor.fetchmany(size=N)
+            query = "select business_id, user_id, stars, idx, u from review limit {},{}".format(readTimes*N, N)
+            self.exe(query)
+            readTimes += 1
+            print readTimes
+            data = self.cursor.fetchall()
             if data == []:
                 break
             else:
-                for b_id, u_id, r, idx in data:
-                    i = self.id2num('business_hash', b_id)
-                    u = self.id2num('user_hash', u_id)
-                    i_max = max(i, i_max)
-                    u_max = max(u, u_max)
-                    query = "update review set i={0}, u={1} where index={2}".format(
-                        i, u, idx)
-                    self.exe(query)
+                for b_id, u_id, r, idx, u_ in data:
+                    if u_ is None:
+                        i = self.id2num('business_hash', b_id)
+                        u = self.id2num('user_hash', u_id)
+                        i_max = max(i, i_max)
+                        u_max = max(u, u_max)
+                        query = "update review set i={0}, u={1} where idx={2}".format(
+                            i, u, idx)
+                        self.exe(query)
+
                     global_mean = step / \
                         (step + 1.0) * global_mean + 1.0 / (step + 1) * r
                     step += 1
@@ -266,33 +278,53 @@ class MysqlPython(object):
         with open('profile', 'wb') as f:
             pickle.dump(self.profile, f)
 
+        self.cnx.commit()
+
     def id2num(self, tb_name, item):
         if tb_name == 'business_hash':
             col = 'business_id'
         elif tb_name == 'user_hash':
             col = 'user_id'
-        query = "select * from {0} where {1}={2}".format(tb_name, col, item)
+        query = "select * from {0} where {1}=\"{2}\"".format(tb_name, col, item)
         self.exe(query)
-        num = None
+        num, id = None, None
         for id, num in self.cursor:
-            break
+            pass
         if num is None:
             query = "insert into {0}({1}) values (\"{2}\")".format(
                 tb_name, col, item)
+            self.exe(query)
             return self.id2num(tb_name, item)
         else:
             return num
 
+    def business_categories(self):
+        query = "select categories from business where categories like '%restaurant%'"
+        self.exe(query)
+        cats = []
+        for item in self.cursor:
+            cat = item[0].split('-=-')
+            cats.extend(cat)
+
+        cat, count = np.unique(cats, return_counts=True)
+        return cat[np.argsort(count)[::-1]]
+
+    def setup_database(self):
+        self.create_business()
+        self.create_review()
+        self.process_review_data()
+
     def reset(self):
-        try:
-            self.cursor.execute(
-                "DROP DATABASE {};".format(self.db_name))
-        except:
-            print("reset fail!")
+        self.exe("drop table business_hash")
+        self.exe("drop table user_hash")
+        self.exe("alter table review drop idx")
+        self.exe("alter table review drop u, drop i")
 
 
-a = MysqlPython(config, DB_NAME)
-# a.create_business()
-# a.create_review()
-# a.create_test()
-data = a.fetch_review_data(N=2)
+if __name__ == '__main__':
+    a = MysqlPython(config, DB_NAME)
+    # a.create_business()
+    # a.create_review()
+    # a.create_test()
+    # data = a.fetch_review_data(N=2)
+    # a.process_review_data()
