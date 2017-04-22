@@ -168,6 +168,8 @@ class Response(object):
                     return int(string)
 
 
+
+
 def easy_search(string):
     sql = MysqlPython(config, "alldata")
     res = Response(sql)
@@ -175,5 +177,7 @@ def easy_search(string):
 
 
 # if __name__ == '__main__':
-string = 'chinese las'
+if request.method == "POST":
+    string = request.values.get(search)
+
 data = easy_search(string)
