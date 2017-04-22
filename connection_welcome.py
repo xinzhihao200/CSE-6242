@@ -15,6 +15,7 @@ application.debug = True
 
 
 @application.route('/welcome',method = ["GET","POST"])
+def welcome_search:
     if request.method == "POST":
         string = request.form('search')
         data = easy_search(string)
