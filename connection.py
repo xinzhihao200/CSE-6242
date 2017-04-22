@@ -1,6 +1,7 @@
 import sys, os
-import recommender.py
-from flask import Flask, request, session
+import recommender
+from flask import Flask, request, session, g, redirect, url_for, abort, \
+     render_template, flash
 from flaskext.mysql import MySQL
 import ast
 
@@ -9,7 +10,7 @@ sys.setdefaultencoding('utf-8')
 application = Flask(__name__)
 application.debug = True
 
-@application.route('/welcome',method = ["GET","POST"])
+@application.route('/welcome',method = ['GET','POST'])
 def welcome():
     if request.method == "POST":
         r = request.form['search']
@@ -40,3 +41,7 @@ def search_result():
 def restaurant_page():
     restaurant=request.form['restaurant']
     return render_template('Restaurant_page.html', restaurant=restaurant)
+
+
+if __name__ == '__main__':
+    application.run()
