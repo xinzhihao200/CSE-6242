@@ -11,14 +11,15 @@ mysql> alter table alldata.business add fulltext(name, categories, city);
 
 ```
 
-## Use Search
+## Response 
 
-In `backend/recommender.py`, use function `easy_search`
+In `backend/database.py`, use class `Response`
 ```python
-from backend.recommender import easy_search
+from backend.recommender import Response
 
+res = Response()
 string = 'chinese'
-data = easy_search(string)
+data = res.search(string)
 ```
 will return a list whose length is at most 100. Each element is a dictionary, like:
 ```
@@ -45,3 +46,9 @@ will return a list whose length is at most 100. Each element is a dictionary, li
   'state': [u'AZ']}
 ```
 Most elements do not have `price`, so I just set to `None`.
+```python
+name = 'user_name'
+password = 'password'
+res.sign_up(name, password) # if success, will return 1, otherwise return 0
+res.sign_in(name, password) # if success will return 1, otherwise return 0
+```

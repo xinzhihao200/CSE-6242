@@ -4,20 +4,26 @@ from sql import (MysqlPython, business_dataDict, config)
 
 class Response(object):
 
-    def __init__(self, sql):
-        self.sql = sql
+    def __init__(self):
+        self.sql = MysqlPython(config, "alldata")
         self.exe = self.sql.exe
+
+    def commit(self):
+        self.sql.cnx.commit()
 
     def sign_up(self, name, password):
         """
         return 1: success
         return 0: user name exists
         """
-        if not self.is_user_exist(name):
+        if self.is_user_exist(name):
+            print("user exists!")
             return 0
 
         query = "insert into alldata.user (name, password) values ('{}','{}')".format(name, password)
         self.exe(query)
+        self.commit()
+        return 1
 
     def sign_in(self, name, password):
         """
@@ -25,12 +31,14 @@ class Response(object):
         return name: success
         """
         if not self.is_user_exist(name):
+            print("user does not exist")
             return 0
 
         if not self.is_password_correct(name, password):
+            print("password not correct")
             return 0
 
-        return name
+        return 1
 
     def is_password_correct(self, name, password):
         query = "select exists (select 1 from alldata.user where name='{}' and password='{}')".format(name, password)
@@ -88,7 +96,4 @@ class Response(object):
                     return int(string)
 
 
-def easy_search(string):
-    sql = MysqlPython(config, "alldata")
-    res = Response(sql)
-    return res.search(string)
+
