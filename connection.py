@@ -37,7 +37,20 @@ def search_result():
 
     return render_template('search_result.html', result=show_result)
 
-@application.route('/Restaurantpage', methods=['GET', 'POST'])
+@application.route('/signup', methods=['GET', 'POST'])
+def signup():
+    error = None
+    message = None
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['userpass']
+
+        return redirect(url_for('welcome', email=email))
+
+    else:
+        return render_template('signup.html')
+
+@application.route('/restaurantpage', methods=['GET', 'POST'])
 def restaurant_page():
     restaurant=request.form['restaurant']
     return render_template('Restaurant_page.html', restaurant=restaurant)
