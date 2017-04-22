@@ -16,16 +16,18 @@ APP_STATIC = os.path.join(APP_ROOT, 'static')
 @application.route('/welcome',methods = ['GET','POST'])
 def welcome():
     if request.method == "POST":
-        r = request.form['search']
-        return redirect(url_for('search_result', request=r))
+        messages = str(request.form['search'])
+#        session['messages'] = messages
+        return redirect(url_for('search_result', messages=messages))
     else:
         return render_template('welcome.htm')
 
 
 @application.route('/searchresult', methods=['GET','POST'])
 def search_result():
-    string = request.form['request']
+#    string = request.form['request']
 #    string = request.form('search')
+    string = request.args['messages']
     data = easy_search(string)
     temp_show = {'name': 'none', 'city': 'none', 'stars': 0.0, 'address': 'none', 'categories': 'none'}
     show_result = []
@@ -41,7 +43,7 @@ def search_result():
     return render_template('search_result.html', result=show_result)
 
 @application.route('/signup', methods=['GET', 'POST'])
-def signup():
+def sign_up():
     error = None
     message = None
     if request.method == 'POST':
@@ -51,7 +53,7 @@ def signup():
         return redirect(url_for('welcome', email=email))
 
     else:
-        return render_template('signup.html')
+        return render_template('sign_up.html')
 
 @application.route('/restaurantpage', methods=['GET', 'POST'])
 def restaurant_page():
