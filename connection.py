@@ -10,6 +10,9 @@ sys.setdefaultencoding('utf-8')
 application = Flask(__name__)
 application.debug = True
 
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))   # refers to application_top
+APP_STATIC = os.path.join(APP_ROOT, 'static')
+
 @application.route('/welcome',methods = ['GET','POST'])
 def welcome():
     if request.method == "POST":
@@ -55,7 +58,24 @@ def restaurant_page():
     restaurant=request.form['restaurant']
     return render_template('Restaurant_page.html', restaurant=restaurant)
 
+@application.route('/signin', methods=['GET', 'POST'])
+def sign_in():
+    error = None
+    message = None
 
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['userpass']
+
+        try:
+            email = email
+
+        except Exception, e:
+            error = e;
+            return render_template('sign_in.html', error=error)
+        return redirect(url_for('welcome', email=email))
+    else:
+        return render_template('sign_in.html')
 
 if __name__ == '__main__':
     application.run()
