@@ -50,36 +50,45 @@
           </div>
 
           <div class="jumbotron">
-      <form class="form-signin" action=""  data-toggle="validator" method="POST">
-        <h1 class="form-signin-heading">Please Sign Up</h1>
-        
-        <label for="inputEmail" class="sr-only">Email address</label>
-        <input id="inputEmail" class="form-control" name="email" placeholder="Email address" required="" type="email" style="margin-left: 25%; width: 50%;">
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input id="inputPassword" class="form-control" name="userpass" placeholder="Password" required="" type="password" style="margin-left: 25%; width: 50%;">
-        <label for="confirmPassword" class="sr-only">Confirm Password</label>
-        <input id="confirmPassword" class="form-control" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirm Password" required="" type="password" style="margin-left: 25%; width: 50%;" oninput="check(this)">
-        <script language='javascript' type='text/javascript'>
-          function check(input) {
-        if (input.value != document.getElementById("inputPassword").value) {
-            input.setCustomValidity('Password not matching.');
-        } else {
+            <form class="form-signin" action=""  data-toggle="validator" method="POST">
+              <h1 class="form-signin-heading">Please Sign Up</h1>
+              
+              <label for="inputEmail" class="sr-only">Email address</label>
+              <input id="inputEmail" class="form-control" name="email" placeholder="Email address" required="" type="email" style="margin-left: 25%; width: 50%;">
+              <label for="inputPassword" class="sr-only">Password</label>
+              <input id="inputPassword" class="form-control" name="userpass" placeholder="Password" required="" type="password" style="margin-left: 25%; width: 50%;">
+              <label for="confirmPassword" class="sr-only">Confirm Password</label>
+              <input id="confirmPassword" class="form-control" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirm Password" required="" type="password" style="margin-left: 25%; width: 50%;" oninput="check(this)">
+              <script language='javascript' type='text/javascript'>
+                function check(input) {
+                  if (input.value != document.getElementById("inputPassword").value) {
+                    input.setCustomValidity('Password not matching.');
+                  } else {
             // input is valid -- reset the error message
             input.setCustomValidity('');
+          }
         }
-    }
-</script>
-        <button class="btn btn-lg btn-primary btn-signin" type="submit"  style="margin-top: 40px; width: 50%">Sign Up</button>
-      </form>
-            
-          </div>
-          <script type="text/javascript">
-            function getinfo(){
-              var strHTML = document.getElementById("search").value;             
-              var winSave = window.open("","Download","");             
-              winSave.document.open("text","gb2312");          
-              winSave.document.write(strHTML);             
-              winSave.document.execCommand ("Saveas",true,"hh.txt");             
+      </script>
+
+      <div class="checkbox">
+        {% if error %}
+        <div class="alert alert-danger">
+          <strong>Wrong: </strong>{{ error }}
+        </div>
+        {% endif %}
+      </div>
+
+      <button class="btn btn-lg btn-primary btn-signin" type="submit"  style="margin-top: 40px; width: 50%">Sign Up</button>
+    </form>
+    
+  </div>
+  <script type="text/javascript">
+    function getinfo(){
+      var strHTML = document.getElementById("search").value;             
+      var winSave = window.open("","Download","");             
+      winSave.document.open("text","gb2312");          
+      winSave.document.write(strHTML);             
+      winSave.document.execCommand ("Saveas",true,"hh.txt");             
               //winSave.close();     
             }
           </script>
