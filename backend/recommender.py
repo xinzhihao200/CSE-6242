@@ -177,8 +177,4 @@ def easy_search(string):
 
 
 # if __name__ == '__main__':
-@application.route('/welcome',method = ["GET","POST"])
-    if request.method == "POST":
-        string = request.values.get(search)
 
-    data = easy_search(string)
