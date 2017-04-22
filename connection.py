@@ -1,5 +1,5 @@
 import sys, os
-import recommender
+from recommender import easy_search
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 from flaskext.mysql import MySQL
@@ -10,13 +10,13 @@ sys.setdefaultencoding('utf-8')
 application = Flask(__name__)
 application.debug = True
 
-@application.route('/welcome',method = ['GET','POST'])
+@application.route('/welcome',methods = ['GET','POST'])
 def welcome():
     if request.method == "POST":
         r = request.form['search']
         return redirect(url_for('search_result', request=r))
     else:
-        return render_template('welcome.html')
+        return render_template('welcome.htm')
 
 
 @application.route('/searchresult', methods=['GET','POST'])
@@ -41,6 +41,7 @@ def search_result():
 def restaurant_page():
     restaurant=request.form['restaurant']
     return render_template('Restaurant_page.html', restaurant=restaurant)
+
 
 
 if __name__ == '__main__':
