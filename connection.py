@@ -29,9 +29,10 @@ def search_result():
 #    string = request.form('search')
     string = request.args['messages']
     data = easy_search(string)
-    temp_show = {'name': 'none', 'city': 'none', 'stars': 0.0, 'address': 'none', 'categories': 'none'}
+    
     show_result = []
     for element in data:
+        temp_show = {'name': 'none', 'city': 'none', 'stars': 0.0, 'address': 'none', 'categories': 'none'}
         temp_show['name'] = element['name']
         temp_show['categoires'] = element['categories'][0]
         temp_show['city'] = element['city']
