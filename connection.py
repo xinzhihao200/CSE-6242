@@ -32,12 +32,12 @@ def search_result():
     
     show_result = []
     for element in data:
-        temp_show = {'name': 'none', 'city': 'none', 'stars': 0.0, 'address': 'none', 'categories': 'none'}
-        temp_show['name'] = element['name']
-        temp_show['categoires'] = element['categories'][0]
-        temp_show['city'] = element['city']
-        temp_show['stars'] = element['stars']
-        temp_show['address'] = element['address']
+        temp_show = []
+        temp_show.append(element['name'])
+        temp_show.append(element['categories'][1])
+        temp_show.append(element['stars'])
+        temp_show.append(element['city'])
+        temp_show.append(element['address'])
 
         show_result.append(temp_show)
 
