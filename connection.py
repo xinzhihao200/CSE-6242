@@ -91,7 +91,18 @@ def sign_in():
         email = request.form['email']
         password = request.form['userpass']
 
-        try:
+        result = res.sign_in(email, password)
+        if result == 1:
+            session["logged_in"] = True
+            session["email"] = email
+
+            return redirect(url_for('welcome'))
+
+        else:
+            return render_template('sign_in.html', error=error)
+
+
+        '''try:
             #email = email
             result = res.sign_in(email, password)
             print result
@@ -106,7 +117,7 @@ def sign_in():
 
         except Exception, e:
             error = e
-            return render_template('sign_in.html', error=error)
+            return render_template('sign_in.html', error=error)'''
     else:
         return render_template('sign_in.html')
 
