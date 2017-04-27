@@ -94,6 +94,7 @@ def sign_in():
         try:
             #email = email
             result = res.sign_in(email, password)
+            print result
             if result == 1:
                 session["logged_in"] = True
                 session["email"] = email
