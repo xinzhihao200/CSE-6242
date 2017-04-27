@@ -33,11 +33,11 @@ def search_result():
     show_result = []
     for element in data:
         temp_show = []
-        temp_show.append(element['name'])
+        temp_show.append(element['name'][0])
         temp_show.append(element['categories'][1])
         temp_show.append(element['stars'])
-        temp_show.append(element['city'])
-        temp_show.append(element['address'])
+        temp_show.append(element['city'][0])
+        temp_show.append(element['address'][0])
 
         show_result.append(temp_show)
 

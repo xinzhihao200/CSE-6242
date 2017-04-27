@@ -73,10 +73,10 @@
     </thead>
     <tbody>
      <tr>
-      {% for row in show_result %}
+      {% for row in result %}
         <tr onclick="window.document.location='/restaurantpage?restaurant={{ row[0] }}';">
         {% for item in row %}
-        <td>{{ item }}</td>
+        <td>{{ item}}</td>
         {% endfor %}
         </tr>
         {% endfor %}
