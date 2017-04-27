@@ -92,14 +92,17 @@ def sign_in():
         password = request.form['userpass']
 
         result = res.sign_in(email, password)
+
         if result == 1:
             session["logged_in"] = True
             session["email"] = email
 
             return redirect(url_for('welcome'))
 
-        else:
-            return render_template('sign_in.html', error=error)
+        elif result == -1:
+            return render_template('sign_in.html', error="User do not exist")
+        elif result == 0:
+            return render_template('sign_in.html', error="Wrong Password")
 
 
         '''try:

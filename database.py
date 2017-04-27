@@ -32,7 +32,7 @@ class Response(object):
         """
         if not self.is_user_exist(name):
             print("user does not exist")
-            return 0
+            return -1
 
         if not self.is_password_correct(name, password):
             print("password not correct")
