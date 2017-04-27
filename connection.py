@@ -37,7 +37,7 @@ def search_result():
         temp_show.append(element['categories'][1])
         temp_show.append(element['stars'])
         temp_show.append(element['city'])
-        temp_show.append(element['address'])
+        temp_show.append(element['state'])
 
         show_result.append(temp_show)
 
