@@ -95,6 +95,9 @@ def sign_in():
             #email = email
             result = res.sign_in(email, password)
             if result == 1:
+                session["logged_in"] = True
+                session["email"] = email
+                
                 return redirect(url_for('welcome', email=email))
 
             elif result == 0:
