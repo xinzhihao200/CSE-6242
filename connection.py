@@ -97,8 +97,8 @@ def sign_in():
             if result == 1:
                 session["logged_in"] = True
                 session["email"] = email
-                
-                return redirect(url_for('welcome', email=email))
+
+                return redirect(url_for('welcome'))
 
             elif result == 0:
                 return render_template('sign_in.html', error=error)
