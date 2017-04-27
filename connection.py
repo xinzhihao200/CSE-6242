@@ -12,6 +12,16 @@ sys.setdefaultencoding('utf-8')
 application = Flask(__name__)
 application.debug = True
 
+mysql = MySQL()
+application.config['MYSQL_DATABASE_USER'] = 'root'
+application.config['MYSQL_DATABASE_PASSWORD'] = '940524sjw'
+application.config['MYSQL_DATABASE_DB'] = 'infodb'
+application.config['MYSQL_DATABASE_HOST'] = 'localhost'
+
+mysql.init_app(application)
+conn = mysql.connect()
+cur = conn.cursor()
+
 # refers to application_top
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 APP_STATIC = os.path.join(APP_ROOT, 'static')
@@ -78,9 +88,22 @@ def sign_up():
 
 @application.route('/restaurantpage', methods=['GET', 'POST'])
 def restaurant_page():
-    restaurant = request.form['restaurant']
-    return render_template('Restaurant_page.html', restaurant=restaurant)
+       
+    if not session.get('logged_in'):
+        return redirect(url_for('sign_in'))
+    
+    restaurant = request.args.get('restaurant')
+    if request.method == 'POST':
+        select = request.form['Selection']
+        email = session.get('email')
 
+        sql = "INSERT INTO customers (username,email,restaurant) VALUES (%s,%s,%s)"
+        cur.execute(sql, (select, email, restaurant))
+        conn.commit()
+        return render_template('Restaurant_page.html', restaurant=restaurant)
+
+    else:
+        return render_template('Restaurant_page.html', restaurant=restaurant)
 
 @application.route('/signin', methods=['GET', 'POST'])
 def sign_in():
