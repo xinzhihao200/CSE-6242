@@ -1,5 +1,6 @@
 import sys, os
 from recommender import easy_search
+from database import sign_up, sign_in
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 from flaskext.mysql import MySQL
@@ -59,6 +60,7 @@ def sign_up():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['userpass']
+        sign_up (email, password)
 
         return redirect(url_for('welcome', email=email))
 
@@ -80,8 +82,14 @@ def sign_in():
         password = request.form['userpass']
 
         try:
-            email = email
+            #email = email
+            result = sign_in(email, password)
+            if result == 1:
+                return redirect(url_for('welcome', email=email))
 
+            elif result == 0
+                return render_template('sign_in.html', error=error)
+                
         except Exception, e:
             error = e;
             return render_template('sign_in.html', error=error)
