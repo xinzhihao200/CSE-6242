@@ -49,6 +49,10 @@ def search_result():
     show_result = []
     for element in data:
         temp_show = []
+        if element['categories'][1] == None:
+            element['categories'][1] = '-'
+        if element['address'][0] == None:
+            element['address'][0] ='-'
         temp_show.append(element['name'][0])
         temp_show.append(element['categories'][1])
         temp_show.append(element['stars'])
