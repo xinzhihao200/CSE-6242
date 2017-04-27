@@ -124,5 +124,7 @@ def sign_in():
     else:
         return render_template('sign_in.html')
 
+application.secret_key = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
+
 if __name__ == '__main__':
     application.run()
