@@ -41,12 +41,15 @@ def search_result():
 
         show_result.append(temp_show)
 
-    return render_template('search_result.html', result=show_result)
+    #return render_template('search_result.html', result=show_result)
 
     if request.method == "POST":
          messages = str(request.form['search'])
 #        session['messages'] = messages
-        return redirect(url_for('search_result', messages=messages))
+
+         return redirect(url_for('search_result', messages=messages))
+    else:
+         return render_template('search_result.html', result=show_result)
 
 
 @application.route('/signup', methods=['GET', 'POST'])
