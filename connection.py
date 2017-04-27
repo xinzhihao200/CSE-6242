@@ -1,6 +1,6 @@
 import sys, os
 from recommender import easy_search
-from database import sign_up, sign_in
+from database import Response as res
 from flask import Flask, request, session, g, redirect, url_for, abort, \
      render_template, flash
 from flaskext.mysql import MySQL
@@ -55,14 +55,17 @@ def search_result():
 
 @application.route('/signup', methods=['GET', 'POST'])
 def sign_up():
-    error = None
+    error = "wrong"
     message = None
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['userpass']
-        sign_up (email, password)
+        result = res.sign_up (email, password)
 
-        return redirect(url_for('welcome', email=email))
+        if result == 1:
+            return redirect(url_for('welcome', email=email))
+        elif result == 0:
+            return render_template('sign_up.html', error=error)
 
     else:
         return render_template('sign_up.html')
@@ -74,7 +77,7 @@ def restaurant_page():
 
 @application.route('/signin', methods=['GET', 'POST'])
 def sign_in():
-    error = None
+    error = "wrong"
     message = None
 
     if request.method == 'POST':
@@ -83,17 +86,16 @@ def sign_in():
 
         try:
             #email = email
-            result = sign_in(email, password)
+            result = res.sign_in(email, password)
             if result == 1:
                 return redirect(url_for('welcome', email=email))
 
-            elif result == 0
+            elif result == 0:
                 return render_template('sign_in.html', error=error)
                 
         except Exception, e:
             error = e;
             return render_template('sign_in.html', error=error)
-        return redirect(url_for('welcome', email=email))
     else:
         return render_template('sign_in.html')
 
