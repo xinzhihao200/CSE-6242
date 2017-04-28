@@ -1,11 +1,15 @@
+README of team30 Final Project
+
+
 DESCRIPTION:
+File DOC: team30finalreport.pdf, team30poster.pdf
+File Code: 
 
 INSTALLATION:
 
 ## Import Database
 Download database.sql from [here](https://drive.google.com/open?id=0B2rvL2JjAe7kMUp6UTZNZTI3X00), 
-then execute command:
-
+Then execute command:
 $ mysql -u root -p alldata < database.sql
 # We need to modify our database, because it has been changed
 $ mysql -u root -p
