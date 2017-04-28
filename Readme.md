@@ -8,7 +8,9 @@ File Code: final version of our code
 INSTALLATION:
 
 ## Import Database
-Please make sure you have installed MySQL and MySQLdb before running the program!
+
+Please make sure you have installed MySQL and MySQLdb before running the program! Please make sure the password of user 'root' is ' '. (a single space)
+
 Download database.sql from [here](https://drive.google.com/open?id=0B2rvL2JjAe7kMUp6UTZNZTI3X00), 
 Then execute command:
 $ mysql -u root -p alldata < database.sql
@@ -20,6 +22,7 @@ mysql> alter table alldata.business add fulltext(name, categories, city);
 
 
 EXECUTION:
+
 
 Get to the root directory, run the following command:
 $ python connection.py
