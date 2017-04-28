@@ -3,7 +3,7 @@ README of team30 Final Project
 
 DESCRIPTION:
 File DOC: team30finalreport.pdf, team30poster.pdf
-File Code: 
+File Code: final version of our code
 
 INSTALLATION:
 
