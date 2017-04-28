@@ -14,7 +14,7 @@ application.debug = True
 
 mysql = MySQL()
 application.config['MYSQL_DATABASE_USER'] = 'root'
-application.config['MYSQL_DATABASE_PASSWORD'] = '940524sjw'
+application.config['MYSQL_DATABASE_PASSWORD'] = ' '
 application.config['MYSQL_DATABASE_DB'] = 'infodb'
 application.config['MYSQL_DATABASE_HOST'] = 'localhost'
 
@@ -49,15 +49,20 @@ def search_result():
     show_result = []
     for element in data:
         temp_show = []
-        if element['categories'][1] == None:
-            element['categories'][1] = '-'
-        if element['address'][0] == None:
-            element['address'][0] ='-'
-        temp_show.append(element['name'][0])
-        temp_show.append(element['categories'][1])
-        temp_show.append(element['stars'])
-        temp_show.append(element['city'][0])
-        temp_show.append(element['address'][0])
+        if element['categories'] == None:
+            element['categories'] = []
+            element['categories'].append('-')
+        if element['address'] == None:
+            element['address'] = []
+            element['address'].append('-')
+
+
+        if "Restaurants" in element['categories']:
+            temp_show.append(element['name'][0])
+            temp_show.append(element['categories'][0])
+            temp_show.append(element['stars'])
+            temp_show.append(element['city'][0])
+            temp_show.append(element['address'][0])
 
         show_result.append(temp_show)
 

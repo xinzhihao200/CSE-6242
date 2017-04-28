@@ -13,8 +13,8 @@ import sndmsg
 #secs = delta_t.seconds + 1
 
 db = MySQLdb.connect(host = "localhost",
-                     user = "team30",
-                     passwd = "team30",
+                     user = "root",
+                     passwd = " ",
                      db = "infodb")
 cursor = db.cursor()
 
@@ -26,6 +26,11 @@ cursor.execute(query1)
 results = cursor.fetchall()
 for row in results:
     sndmsg.snd(row[1],row[2],row[3])
+
+query2 = "delete from customers"
+
+cursor.execute(query2)
+db.commit()
 db.close()
 print "Done!"
 
@@ -33,8 +38,6 @@ print "Done!"
 #t = Timer(secs, readandsend)
 #t.start
 #sq1 = "select email, restaurant from customers"
-sql2 = "select count(*), restaurant from customers group by restaurant"
 
-sql = sql1 + ' left join ' + sql2
 
 
