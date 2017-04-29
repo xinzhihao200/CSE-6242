@@ -29,12 +29,11 @@ $ mysql -u root -p infodb < infodb.sql
 
 Get to the root directory, run the following command:
 ```python
-$ python connection.py
+python connection.py
 
 ```
 
-
-## Send coupon and delete coupon database
+## Send coupon and delete coupon data
 
 Change the directory to `coupon` folder and execute 
 ```
