@@ -33,7 +33,6 @@ $ python connection.py
 
 ```
 
-## Description
 
 ## Send coupon and delete coupon database
 

@@ -1,11 +1,10 @@
 import sys
 import os
-from recommender import easy_search
-from database import Response
 from flask import Flask, request, session, g, redirect, url_for, abort, \
     render_template, flash
 from flaskext.mysql import MySQL
 import ast
+from backend.database import Response
 
 reload(sys)
 sys.setdefaultencoding('utf-8')
@@ -44,7 +43,7 @@ def search_result():
     #    string = request.form['request']
     #    string = request.form('search')
     string = request.args['messages']
-    data = easy_search(string)
+    data = res.search(string)
 
     show_result = []
     for element in data:
